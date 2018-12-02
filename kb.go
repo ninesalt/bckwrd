@@ -32,13 +32,11 @@ func (kb *KB) Ask(a Atom) bool {
 // currently this only works with simple atomic formulas
 func (kb *KB) Tell(a []Atom) {
 
-	var g *Graph
-
 	if kb.Graph == nil {
 		kb.Graph = CreateGraph()
 	}
 
-	g = kb.Graph
+	g := kb.Graph
 
 	for _, atom := range a {
 
