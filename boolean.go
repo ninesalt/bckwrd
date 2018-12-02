@@ -11,17 +11,17 @@ import (
 // IMPLIES: 2
 // IFF: 3
 type TreeNode struct {
-	Operator   int
-	TruthValue bool
-	Left       *TreeNode
-	Right      *TreeNode
-	Name       string
+	Operator int
+	Left     *TreeNode
+	Right    *TreeNode
+	Name     string
 }
 
 type Formula struct {
 	Name         string
 	Node         *TreeNode
 	TruthMapping map[string]bool
+	Negated      bool
 }
 
 func CreateFormula(name string) *Formula {
@@ -45,7 +45,7 @@ func (b *Formula) Iff(f *Formula) {
 }
 
 func (b *Formula) Negate() {
-	//TODO
+	b.Negated = !b.Negated
 }
 
 func (b *Formula) SetTruthValues(m map[string]bool) {
@@ -79,7 +79,7 @@ func (b *Formula) EvaluateHelper(n *TreeNode) bool {
 	}
 
 	name := n.Name
-	return b.TruthMapping[name]
+	return b.TruthMapping[name] != b.Negated //xor to negate if needed
 }
 
 func (b *Formula) Reduce(f *Formula) {

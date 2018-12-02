@@ -39,7 +39,8 @@ func main() {
 	a.And(b)
 	a.Or(c)
 	a.Implies(d)
-	// ((a AND B) OR C) IMPLIES D
+	a.Negate()
+	// NOT (((a AND B) OR C) IMPLIES D)
 
 	mapping := make(map[string]bool)
 	mapping["A"] = true
