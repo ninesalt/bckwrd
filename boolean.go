@@ -24,41 +24,41 @@ type TreeNode struct {
 }
 
 //Formula - structure for formulas
-// where Root is the root
+// where Node is the root
 type Formula struct {
 	Name         string
-	Root         *TreeNode
+	Node         *TreeNode
 	TruthMapping map[string]bool
 }
 
 //CreateFormula - Creates a formula given the variable name
 func CreateFormula(name string) *Formula {
-	return &Formula{Name: name, Root: &TreeNode{Name: name}}
+	return &Formula{Name: name, Node: &TreeNode{Name: name}}
 }
 
 // Or - Logical Or of two formulas
 func (b *Formula) Or(f *Formula) {
-	b.Root = &TreeNode{Operator: OR, Left: b.Root, Right: f.Root}
+	b.Node = &TreeNode{Operator: OR, Left: b.Node, Right: f.Node}
 }
 
-// And - Logical AND of two formulas
+// And - Logical and of two formulas
 func (b *Formula) And(f *Formula) {
-	b.Root = &TreeNode{Operator: AND, Left: b.Root, Right: f.Root}
+	b.Node = &TreeNode{Operator: AND, Left: b.Node, Right: f.Node}
 }
 
 //Implies - Material implication of two formulas
 func (b *Formula) Implies(f *Formula) {
-	b.Root = &TreeNode{Operator: IMPLIES, Left: b.Root, Right: f.Root}
+	b.Node = &TreeNode{Operator: IMPLIES, Left: b.Node, Right: f.Node}
 }
 
 //Iff - Material equivalence of two formulas
 func (b *Formula) Iff(f *Formula) {
-	b.Root = &TreeNode{Operator: IFF, Left: b.Root, Right: f.Root}
+	b.Node = &TreeNode{Operator: IFF, Left: b.Node, Right: f.Node}
 }
 
 // Negate - Negates a formula
 func (b *Formula) Negate() {
-	b.Root.Negated = !b.Root.Negated
+	b.Node.Negated = !b.Node.Negated
 }
 
 // SetTruthValues - Sets the truth values for all values in a formula
@@ -73,7 +73,7 @@ func (b *Formula) Evaluate() (bool, error) {
 		return false, errors.New("No truth mapping defined")
 	}
 
-	n := b.Root
+	n := b.Node
 	return b.EvaluateHelper(n), nil
 }
 
@@ -102,7 +102,7 @@ func (b *Formula) EvaluateHelper(n *TreeNode) bool {
 
 //ToString - Returns the formula in string form
 func (b *Formula) ToString() string {
-	return b.ToStringHelper(b.Root)
+	return b.ToStringHelper(b.Node)
 }
 
 //ToStringHelper - Recursively traverse the parse tree to generate
