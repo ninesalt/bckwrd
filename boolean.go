@@ -2,7 +2,6 @@ package main
 
 import (
 	"errors"
-	"fmt"
 	"strings"
 )
 
@@ -149,7 +148,7 @@ func (b *Formula) ToStringHelper(n *TreeNode) string {
 	}
 	//if leaf is negated
 	if n.Negated {
-		return fmt.Sprintf("(%v%v)", NEGSYM, n.Name)
+		return NEGSYM + n.Name
 	}
 	return n.Name
 }
