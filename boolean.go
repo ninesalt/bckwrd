@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"strings"
 )
 
 // Numerical mapping for operations
@@ -10,6 +11,15 @@ const (
 	AND     int = 1
 	IMPLIES int = 2
 	IFF     int = 3
+)
+
+// string representations of operations
+const (
+	ORSYM  string = " \u2228 "
+	ANDSYM string = " \u2227 "
+	IMPSYM string = " \u21D2 "
+	IFFSYM string = " \u21D4 "
+	NEGSYM string = "\u00AC"
 )
 
 // TreeNode - the structure that holds boolean
@@ -33,7 +43,7 @@ type Formula struct {
 
 //CreateFormula - Creates a formula given the variable name
 func CreateFormula(name string) *Formula {
-	return &Formula{Name: name, Node: &TreeNode{Name: name}}
+	return &Formula{Name: strings.ToUpper(name), Node: &TreeNode{Name: name}}
 }
 
 // Or - Logical Or of two formulas
@@ -114,25 +124,25 @@ func (b *Formula) ToStringHelper(n *TreeNode) string {
 		f := ""
 		// if node should be negated
 		if n.Negated {
-			f += "NOT"
+			f += NEGSYM
 		}
 
 		switch n.Operator {
 
 		case OR:
-			return f + "(" + b.ToStringHelper(n.Left) + " OR " + b.ToStringHelper(n.Right) + ")"
+			return f + "(" + b.ToStringHelper(n.Left) + ORSYM + b.ToStringHelper(n.Right) + ")"
 		case AND:
-			return f + "(" + b.ToStringHelper(n.Left) + " AND " + b.ToStringHelper(n.Right) + ")"
+			return f + "(" + b.ToStringHelper(n.Left) + ANDSYM + b.ToStringHelper(n.Right) + ")"
 		case IMPLIES:
-			return f + "(" + b.ToStringHelper(n.Left) + " IMPLIES " + b.ToStringHelper(n.Right) + ")"
+			return f + "(" + b.ToStringHelper(n.Left) + IMPSYM + b.ToStringHelper(n.Right) + ")"
 		case IFF:
-			return f + "(" + b.ToStringHelper(n.Left) + " IFF " + b.ToStringHelper(n.Right) + ")"
+			return f + "(" + b.ToStringHelper(n.Left) + IFFSYM + b.ToStringHelper(n.Right) + ")"
 		}
 
 	}
 	//if leaf is negated
 	if n.Negated {
-		return "(NOT " + n.Name + ")"
+		return "(" + NEGSYM + n.Name + ")"
 	}
 	return n.Name
 }
