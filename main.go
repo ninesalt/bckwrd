@@ -17,39 +17,40 @@ func main() {
 	// fmt.Println(g.Nodes[1])
 	// fmt.Println(g.Nodes[2])
 
-	kb := KB{}
+	// kb := KB{}
 
-	x := Atom{"animal", []string{"cat"}}
-	y := Atom{"man", []string{"mortal"}}
-	z := Atom{"animal", []string{"dog"}}
+	// x := Atom{"animal", []string{"cat"}}
+	// y := Atom{"man", []string{"mortal"}}
+	// z := Atom{"animal", []string{"dog"}}
 
-	kb.Tell([]Atom{x, y, z})
+	// kb.Tell([]Atom{x, y, z})
 
-	test := Atom{"animal", []string{"dog"}}
-	test2 := Atom{"animal", []string{"cow"}}
+	// test := Atom{"animal", []string{"dog"}}
+	// test2 := Atom{"animal", []string{"cow"}}
 
-	fmt.Println(kb.Ask(test))  //true
-	fmt.Println(kb.Ask(test2)) //false
+	// fmt.Println(kb.Ask(test))  //true
+	// fmt.Println(kb.Ask(test2)) //false
 
 	a := CreateFormula("A")
 	b := CreateFormula("B")
 	c := CreateFormula("C")
 	d := CreateFormula("D")
 
-	a.And(b)
-	a.Or(c)
-	a.Implies(d)
-	a.Negate()
-	// NOT (((a AND B) OR C) IMPLIES D)
+	a.Implies(b)
+	c.Implies(d)
+	a.Implies(c)
+	b.Negate()
+	a.Or(b)
 
 	mapping := make(map[string]bool)
-	mapping["A"] = true
-	mapping["B"] = false
+	mapping["A"] = false
+	mapping["B"] = true
 	mapping["C"] = true
 	mapping["D"] = false
 
 	a.SetTruthValues(mapping)
 	result, _ := a.Evaluate()
+	fmt.Println(a.ToString())
+	// fmt.Println(mapping)
 	fmt.Printf("Formula is %v \n", result)
-
 }
