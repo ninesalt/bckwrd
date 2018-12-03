@@ -36,21 +36,18 @@ func main() {
 	c := CreateFormula("C")
 	d := CreateFormula("D")
 
-	a.Implies(b)
-	c.Implies(d)
-	a.Implies(c)
-	b.Negate()
-	a.Or(b)
+	f := a.And(b).Or(c).Implies(d).And(d).Negate()
 
 	mapping := make(map[string]bool)
-	mapping["A"] = false
+	mapping["A"] = true
 	mapping["B"] = true
-	mapping["C"] = true
+	mapping["C"] = false
 	mapping["D"] = false
 
-	a.SetTruthValues(mapping)
-	result, _ := a.Evaluate()
-	fmt.Println(a.ToString())
-	// fmt.Println(mapping)
+	f.SetTruthValues(mapping)
+	result, _ := f.Evaluate()
+	fmt.Println(f.ToString())
+	fmt.Println()
+	fmt.Println(mapping)
 	fmt.Printf("Formula is %v \n", result)
 }

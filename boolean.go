@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"strings"
 )
 
@@ -47,28 +48,34 @@ func CreateFormula(name string) *Formula {
 }
 
 // Or - Logical Or of two formulas
-func (b *Formula) Or(f *Formula) {
-	b.Node = &TreeNode{Operator: OR, Left: b.Node, Right: f.Node}
+func (b *Formula) Or(f *Formula) *Formula {
+	n := &TreeNode{Operator: OR, Left: b.Node, Right: f.Node}
+	return &Formula{Node: n}
 }
 
 // And - Logical and of two formulas
-func (b *Formula) And(f *Formula) {
-	b.Node = &TreeNode{Operator: AND, Left: b.Node, Right: f.Node}
+func (b *Formula) And(f *Formula) *Formula {
+	n := &TreeNode{Operator: AND, Left: b.Node, Right: f.Node}
+	return &Formula{Node: n}
 }
 
 //Implies - Material implication of two formulas
-func (b *Formula) Implies(f *Formula) {
-	b.Node = &TreeNode{Operator: IMPLIES, Left: b.Node, Right: f.Node}
+func (b *Formula) Implies(f *Formula) *Formula {
+	n := &TreeNode{Operator: IMPLIES, Left: b.Node, Right: f.Node}
+	return &Formula{Node: n}
 }
 
 //Iff - Material equivalence of two formulas
-func (b *Formula) Iff(f *Formula) {
-	b.Node = &TreeNode{Operator: IFF, Left: b.Node, Right: f.Node}
+func (b *Formula) Iff(f *Formula) *Formula {
+	n := &TreeNode{Operator: IFF, Left: b.Node, Right: f.Node}
+	return &Formula{Node: n}
 }
 
 // Negate - Negates a formula
-func (b *Formula) Negate() {
-	b.Node.Negated = !b.Node.Negated
+func (b Formula) Negate() *Formula {
+	n := *b.Node
+	n.Negated = !n.Negated
+	return &Formula{Node: &n}
 }
 
 // SetTruthValues - Sets the truth values for all values in a formula
@@ -142,7 +149,7 @@ func (b *Formula) ToStringHelper(n *TreeNode) string {
 	}
 	//if leaf is negated
 	if n.Negated {
-		return "(" + NEGSYM + n.Name + ")"
+		return fmt.Sprintf("(%v%v)", NEGSYM, n.Name)
 	}
 	return n.Name
 }
