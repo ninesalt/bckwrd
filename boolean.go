@@ -2,6 +2,7 @@ package main
 
 import (
 	"errors"
+	"fmt"
 	"strings"
 )
 
@@ -15,10 +16,10 @@ const (
 
 // string representations of operations
 const (
-	ORSYM  string = " \u2228 "
-	ANDSYM string = " \u2227 "
-	IMPSYM string = " \u21D2 "
-	IFFSYM string = " \u21D4 "
+	ORSYM  string = "\u2228"
+	ANDSYM string = "\u2227"
+	IMPSYM string = "\u21D2"
+	IFFSYM string = "\u21D4"
 	NEGSYM string = "\u00AC"
 )
 
@@ -136,13 +137,17 @@ func (b *Formula) ToStringHelper(n *TreeNode) string {
 		switch n.Operator {
 
 		case OR:
-			return f + "(" + b.ToStringHelper(n.Left) + ORSYM + b.ToStringHelper(n.Right) + ")"
+			return fmt.Sprintf("%v(%v %v %v)", f,
+				b.ToStringHelper(n.Left), ORSYM, b.ToStringHelper(n.Right))
 		case AND:
-			return f + "(" + b.ToStringHelper(n.Left) + ANDSYM + b.ToStringHelper(n.Right) + ")"
+			return fmt.Sprintf("%v(%v %v %v)", f,
+				b.ToStringHelper(n.Left), ANDSYM, b.ToStringHelper(n.Right))
 		case IMPLIES:
-			return f + "(" + b.ToStringHelper(n.Left) + IMPSYM + b.ToStringHelper(n.Right) + ")"
+			return fmt.Sprintf("%v(%v %v  %v)", f,
+				b.ToStringHelper(n.Left), IMPSYM, b.ToStringHelper(n.Right))
 		case IFF:
-			return f + "(" + b.ToStringHelper(n.Left) + IFFSYM + b.ToStringHelper(n.Right) + ")"
+			return fmt.Sprintf("%v(%v %v  %v)", f,
+				b.ToStringHelper(n.Left), IFFSYM, b.ToStringHelper(n.Right))
 		}
 
 	}
