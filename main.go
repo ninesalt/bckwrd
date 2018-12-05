@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"strings"
 )
 
 func main() {
@@ -43,9 +42,5 @@ func main() {
 	kb.TellFact("croaks(fritz)")
 	r := kb.Ask("green(fritz)")
 	fmt.Println(r)
-
-	xx := "Sd"
-	u := strings.ToUpper(xx)
-	fmt.Println(u)
 
 }
