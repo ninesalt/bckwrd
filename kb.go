@@ -1,26 +1,28 @@
 package main
 
-import "fmt"
-
 // KB - basic structure that holds the graph and
 // and all the clauses
 type KB struct {
-	Rules []*Formula
-	Facts []string
-	Graph *Graph
+	Rules      []*Formula
+	Facts      []string
+	Graph      *Graph
+	FactExists map[string]bool
+}
+
+func CreateKB() *KB {
+	return &KB{FactExists: make(map[string]bool)}
 }
 
 // Ask - queries the knowledge base for something
-// currently this only works for simple atoms (no if conditions or conjunctions, etc)
-func (kb *KB) Ask(f Formula) bool {
+func (kb *KB) Ask(a string) bool {
 
+	//TODO
 	// g := kb.Graph
 	return false
 }
 
-// Tell - give the KB a list of atoms/clauses to save
-// currently this only works with simple atomic formulas
-func (kb *KB) Tell(f *Formula) {
+// Tell - give the KB formulas to save
+func (kb *KB) TellRule(f *Formula) {
 
 	if kb.Graph == nil {
 		kb.Graph = CreateGraph()
@@ -28,21 +30,34 @@ func (kb *KB) Tell(f *Formula) {
 
 	g := kb.Graph
 
-	// if formula is a rule (A Implies B)
 	n := f.Node
 	antecedent := n.Left
 	consequent := n.Right
 
-	consNode := Node{Clause: consequent}
-	antecNode := Node{Clause: antecedent}
+	antecNode := g.MapTreeNode(antecedent)
+	consNode := g.MapTreeNode(consequent)
 
-	// if consNode exists
-	if g.NodeExists(&consNode) {
-		fmt.Println("already exists")
+	if antecNode == nil {
+		antecNode = &Node{Clause: antecedent}
+		g.TreeNodeMap[antecedent] = antecNode
 	}
 
-	g.AddNode(&consNode, g.GetTruthNode(), 1)
-	g.AddNode(&antecNode, &consNode, 1)
-	// fmt.Println(g)
+	if consNode == nil {
+		consNode = &Node{Clause: consequent}
+		g.TreeNodeMap[consequent] = consNode
+
+		g.AddNode(consNode)
+		g.AddEdge(g.GetTruthNode(), consNode, 1)
+	}
+
+	g.AddEdge(consNode, antecNode, 1)
+}
+
+func (kb *KB) TellFact(s string) {
+
+	if !kb.FactExists[s] {
+		kb.Facts = append(kb.Facts, s)
+		kb.FactExists[s] = true
+	}
 
 }

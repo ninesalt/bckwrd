@@ -1,35 +1,11 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+	"strings"
+)
 
 func main() {
-
-	// x := Node{}
-	// y := Node{}
-	// z := Node{}
-
-	// g := Graph{Edges: make(map[*Node][]*Node)}
-	// g.AddNode(&x, nil, 0)
-	// g.AddNode(&y, &x, 50)
-	// g.AddNode(&z, &y, 70)
-
-	// fmt.Println(g.Nodes[0]) //root
-	// fmt.Println(g.Nodes[1])
-	// fmt.Println(g.Nodes[2])
-
-	// kb := KB{}
-
-	// x := Atom{"animal", []string{"cat"}}
-	// y := Atom{"man", []string{"mortal"}}
-	// z := Atom{"animal", []string{"dog"}}
-
-	// kb.Tell([]Atom{x, y, z})
-
-	// test := Atom{"animal", []string{"dog"}}
-	// test2 := Atom{"animal", []string{"cow"}}
-
-	// fmt.Println(kb.Ask(test))  //true
-	// fmt.Println(kb.Ask(test2)) //false
 
 	a := CreateFormula("A")
 	b := CreateFormula("B")
@@ -59,8 +35,17 @@ func main() {
 	fmt.Println(rule1.ToString())
 	fmt.Println(rule2.ToString())
 
-	kb := KB{}
-	kb.Tell(rule1)
-	kb.Tell(rule2)
+	kb := CreateKB()
+
+	kb.TellRule(rule1) //frog(X) -> green(X)
+	kb.TellRule(rule2) //croaks(X) -> frog(X)
+
+	kb.TellFact("croaks(fritz)")
+	r := kb.Ask("green(fritz)")
+	fmt.Println(r)
+
+	xx := "Sd"
+	u := strings.ToUpper(xx)
+	fmt.Println(u)
 
 }

@@ -18,41 +18,44 @@ type Edge struct {
 // Graph - the data structure that holds the nodes and their
 // connections
 type Graph struct {
-	Nodes      []*Node
-	Edges      map[*Node][]*Node
-	TruthNode  *Node
-	TypeExists map[*Node]bool
+	Nodes       []*Node
+	TruthNode   *Node
+	Edges       map[*Node][]*Node
+	TreeNodeMap map[*TreeNode]*Node
+	NodeExists  map[*Node]bool
 }
 
 // CreateGraph - creates the initial graph with the truth node as
 // the starting node
 func CreateGraph() *Graph {
+
+	g := Graph{
+		Edges:       make(map[*Node][]*Node),
+		TreeNodeMap: make(map[*TreeNode]*Node),
+		NodeExists:  make(map[*Node]bool)}
+
 	truthNode := Node{Truth: true}
-	g := Graph{Edges: make(map[*Node][]*Node),
-		TypeExists: make(map[*Node]bool)}
-	g.AddNode(&truthNode, nil, 0)
+	g.AddNode(&truthNode)
 	return &g
 }
 
-// AddNode add a node to the graph with an edge weight
-func (g *Graph) AddNode(n *Node, from *Node, weight int) {
+// AddNode add a node to the graph
+func (g *Graph) AddNode(n *Node) {
 
-	// if this is not the first node in the graph
-	if from != nil {
-		n.PathCost = from.PathCost + weight
-		g.Edges[from] = append(g.Edges[from], n)
-	} else {
-		// first node added to graph, then path cost must be 0
-		n.PathCost = 0
+	if !g.NodeExists[n] {
+		if n.Truth {
+			g.TruthNode = n
+		}
+
+		g.Nodes = append(g.Nodes, n)
+		g.NodeExists[n] = true
 	}
 
-	if n.Truth {
-		g.TruthNode = n
-	}
+}
 
-	g.TypeExists[n] = true
-	g.Nodes = append(g.Nodes, n)
-
+func (g *Graph) AddEdge(from *Node, to *Node, weight int) {
+	to.PathCost = from.PathCost + weight
+	g.Edges[from] = append(g.Edges[from], to)
 }
 
 // GetTruthNode - returns the truth node in the graph
@@ -66,6 +69,6 @@ func (g *Graph) GetConnectedNodes(n *Node) (nodes []*Node) {
 	return g.Edges[n]
 }
 
-func (g *Graph) NodeExists(n *Node) bool {
-	return g.TypeExists[n]
+func (g *Graph) MapTreeNode(t *TreeNode) *Node {
+	return g.TreeNodeMap[t]
 }
