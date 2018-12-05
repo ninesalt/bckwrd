@@ -3,7 +3,6 @@ package main
 import (
 	"errors"
 	"fmt"
-	"strings"
 )
 
 // Numerical mapping for operations
@@ -44,7 +43,7 @@ type Formula struct {
 
 //CreateFormula - Creates a formula given the variable name
 func CreateFormula(name string) *Formula {
-	return &Formula{Name: strings.ToUpper(name), Node: &TreeNode{Name: name}}
+	return &Formula{Name: name, Node: &TreeNode{Name: name}}
 }
 
 // Or - Logical Or of two formulas

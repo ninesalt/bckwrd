@@ -48,6 +48,19 @@ func main() {
 	result, _ := f.Evaluate()
 	fmt.Println(f.ToString())
 	fmt.Println()
-	fmt.Println(mapping)
 	fmt.Printf("Formula is %v \n", result)
+
+	frog := CreateFormula("frog(X)")
+	green := CreateFormula("green(X)")
+
+	rule1 := frog.Implies(green)
+	rule2 := CreateFormula("croaks(X)").Implies(frog)
+
+	fmt.Println(rule1.ToString())
+	fmt.Println(rule2.ToString())
+
+	kb := KB{}
+	kb.Tell(rule1)
+	kb.Tell(rule2)
+
 }

@@ -3,7 +3,7 @@ package main
 // Node - basic graph node with path cost
 type Node struct {
 	PathCost int
-	Clause   Atom
+	Clause   *TreeNode
 	Truth    bool
 }
 
@@ -21,14 +21,15 @@ type Graph struct {
 	Nodes      []*Node
 	Edges      map[*Node][]*Node
 	TruthNode  *Node
-	TypeExists map[string]bool
+	TypeExists map[*Node]bool
 }
 
 // CreateGraph - creates the initial graph with the truth node as
 // the starting node
 func CreateGraph() *Graph {
 	truthNode := Node{Truth: true}
-	g := Graph{Edges: make(map[*Node][]*Node)}
+	g := Graph{Edges: make(map[*Node][]*Node),
+		TypeExists: make(map[*Node]bool)}
 	g.AddNode(&truthNode, nil, 0)
 	return &g
 }
@@ -49,6 +50,7 @@ func (g *Graph) AddNode(n *Node, from *Node, weight int) {
 		g.TruthNode = n
 	}
 
+	g.TypeExists[n] = true
 	g.Nodes = append(g.Nodes, n)
 
 }
@@ -62,4 +64,8 @@ func (g *Graph) GetTruthNode() *Node {
 // from a source node n
 func (g *Graph) GetConnectedNodes(n *Node) (nodes []*Node) {
 	return g.Edges[n]
+}
+
+func (g *Graph) NodeExists(n *Node) bool {
+	return g.TypeExists[n]
 }
