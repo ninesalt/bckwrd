@@ -43,4 +43,7 @@ func main() {
 	r := kb.Ask("green(fritz)")
 	fmt.Println(r)
 
+	gg := CreateTerm("Vincent(a, bob(aa), gg(c))")
+	fmt.Println(gg)
+	fmt.Println(gg.PredicateTerms[0])
 }
