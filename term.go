@@ -22,9 +22,9 @@ type Term struct {
 func CreateTerm(s string) *Term {
 
 	s = strings.TrimSpace(s)
-	r := regexp.MustCompile("\\w+\\(.+\\,*.*\\)")
+	r := regexp.MustCompile("^\\w+\\(.+\\,*.*\\)$")
 	isFunc := r.MatchString(s)
-	t := Term{StringRep: s}
+	t := Term{StringRep: s, IsFunc: isFunc}
 
 	if isFunc {
 
@@ -36,7 +36,6 @@ func CreateTerm(s string) *Term {
 		lastIndex := strings.LastIndex(s, ")")
 		argsString := s[firstIndex+1 : lastIndex]
 		args := strings.Split(argsString, ",")
-		t.IsFunc = true
 
 		for _, a := range args {
 			t.PredicateTerms = append(t.PredicateTerms, CreateTerm(a))
