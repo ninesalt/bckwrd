@@ -15,6 +15,7 @@ type Term struct {
 	IsFunc         bool
 	Predicate      string
 	PredicateTerms []*Term
+	StringRep      string
 }
 
 // CreateTerm recursively creates the terms
@@ -23,7 +24,7 @@ func CreateTerm(s string) *Term {
 	s = strings.TrimSpace(s)
 	r := regexp.MustCompile("\\w+\\(.+\\,*.*\\)")
 	isFunc := r.MatchString(s)
-	t := Term{}
+	t := Term{StringRep: s}
 
 	if isFunc {
 
@@ -56,6 +57,10 @@ func CreateTerm(s string) *Term {
 
 //ToString - returns the string representation of a term
 func (t *Term) ToString() string {
+
+	if t.StringRep != "" {
+		return t.StringRep
+	}
 
 	if !t.IsVar && !t.IsConstant {
 		p := t.Predicate

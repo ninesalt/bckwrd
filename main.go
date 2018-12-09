@@ -45,7 +45,7 @@ func main() {
 	// fmt.Println(r)
 
 	t1 := CreateTerm("hello(X, f(G), Z)")
-	t2 := CreateTerm("Hello(a, B, f(a))")
+	t2 := CreateTerm("hello(a, B, f(a))")
 	valid, unified := t2.UnifyTerms(t1)
 
 	if valid {
