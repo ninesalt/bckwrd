@@ -14,10 +14,11 @@ func CreateKB() *KB {
 }
 
 // Ask - queries the knowledge base for something
-func (kb *KB) Ask(a string) bool {
+func (kb *KB) Ask(t *Term) bool {
 
 	//TODO
 	// g := kb.Graph
+
 	return false
 }
 

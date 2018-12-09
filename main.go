@@ -40,10 +40,18 @@ func main() {
 	kb.TellRule(rule2) //croaks(X) -> frog(X)
 
 	kb.TellFact("croaks(fritz)")
-	r := kb.Ask("green(fritz)")
-	fmt.Println(r)
+	// t := CreateTerm("green(fritz)")
+	// r := kb.Ask(t)
+	// fmt.Println(r)
 
-	gg := CreateTerm("Vincent(a, bob(aa), gg(c))")
-	fmt.Println(gg)
-	fmt.Println(gg.PredicateTerms[0])
+	t1 := CreateTerm("hello(X, f(G), Z)")
+	t2 := CreateTerm("Hello(a, B, f(a))")
+	valid, unified := t2.UnifyTerms(t1)
+
+	if valid {
+		fmt.Printf("%v and %v unify to: %v", t1.ToString(),
+			t2.ToString(), unified.ToString())
+	} else {
+		fmt.Println("cannot unify terms")
+	}
 }
