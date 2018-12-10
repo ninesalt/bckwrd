@@ -10,7 +10,7 @@ type KB struct {
 }
 
 func CreateKB() *KB {
-	return &KB{FactExists: make(map[string]bool)}
+	return &KB{FactExists: make(map[string]bool), Graph: CreateGraph()}
 }
 
 // Ask - queries the knowledge base for something
@@ -24,10 +24,6 @@ func (kb *KB) Ask(t *Term) bool {
 
 // Tell - give the KB formulas to save
 func (kb *KB) TellRule(f *Formula) {
-
-	if kb.Graph == nil {
-		kb.Graph = CreateGraph()
-	}
 
 	g := kb.Graph
 

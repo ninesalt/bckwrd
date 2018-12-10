@@ -49,7 +49,7 @@ func main() {
 	valid, unified := t2.UnifyTerms(t1)
 
 	if valid {
-		fmt.Printf("%v and %v unify to: %v", t1.ToString(),
+		fmt.Printf("%v and %v unify to: %v\n", t1.ToString(),
 			t2.ToString(), unified.ToString())
 	} else {
 		fmt.Println("cannot unify terms")

@@ -47,6 +47,7 @@ func (g *Graph) AddNode(n *Node) {
 			g.TruthNode = n
 		}
 
+		n.PathCost = 0
 		g.Nodes = append(g.Nodes, n)
 		g.NodeExists[n] = true
 	}
@@ -54,7 +55,7 @@ func (g *Graph) AddNode(n *Node) {
 }
 
 func (g *Graph) AddEdge(from *Node, to *Node, weight int) {
-	to.PathCost = from.PathCost + weight
+	to.PathCost = from.PathCost + 1
 	g.Edges[from] = append(g.Edges[from], to)
 }
 
